@@ -1,0 +1,24 @@
+{
+  "name": "@dynamail/handlebarshelpers",
+  "version": "1.0.1",
+  "description": "Handlebars helper functions to be used in constructing emails",
+  "keywords": [
+    "handlebars"
+  ],
+  "author": "Serge van den Oever",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "start": "tsc --watch --incremental",
+    "start:tooling": "npm run start",
+    "build": "tsc --incremental"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.7"
+  }
+}

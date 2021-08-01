@@ -1,0 +1,49 @@
+{
+    "name": "@dynamail/azurefunctions",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "engines": {
+        "node": ">=14"
+    },
+    "scripts": {
+        "prestart": "npm run build",
+        "start": "kill-port 7777 && npm run link:mailtemplates && func start --port 7777",
+        "start:tooling": "npm run start",
+        "quickstart": "func start --port 7777",
+        "watch": "tsc --watch --incremental",
+        "build": "npm-run-all clean:build build:code link:mailtemplates",
+        "build:code": "tsc --incremental",
+        "link:mailtemplates": "symlink-dir ../MailTemplates/dist dist/MailTemplates",
+        "clean:build": "rimraf ./dist",
+        "--- Test deployment build locally ---": "---",
+        "run:deploy": "copyfiles local.settings.json ../dist-deploy && cd ../dist-deploy && func start --javascript --port 7777",
+        "--- Deployment build for all functions to minimize dependencies ---": "---",
+        "build:deployment:functions": "npm-run-all clean:deploy --parallel deploy:ncc:sendMailWithSendGrid deploy:ncc:warmup --sequential deploy:clean:packagejson deploy:copy:runtimefiles deploy:copy:mailtemplates",
+        "deploy:ncc:sendMailWithSendGrid": "ncc build sendMailWithSendGrid/index.ts --minify --no-source-map-register --target es6 --out ../dist-deploy/sendMailWithSendGrid && copyfiles sendMailWithSendGrid/function.json ../dist-deploy && replace '../dist/sendMailWithSendGrid/' './' ../dist-deploy/sendMailWithSendGrid/function.json",
+        "deploy:ncc:warmup": "copyfiles warmup/index.js ../dist-deploy && copyfiles warmup/function.json ../dist-deploy",
+        "deploy:copy:runtimefiles": "copyfiles host.json proxies.json ../dist-deploy",
+        "deploy:copy:mailtemplates": "copyfiles ../MailTemplates/dist/* ../dist-deploy/MailTemplates --flat",
+        "deploy:clean:packagejson": "rimraf ../dist-deploy/**/package.json",
+        "--- Clean deployment build ---": "---",
+        "clean:deploy": "rimraf ../dist-deploy"
+    },
+    "dependencies": {
+        "@azure/functions": "^1.2.3",
+        "@dynamail/handlebarshelpers": "*",
+        "@dynamail/mailbuilder": "*",
+        "@dynamail/mailtemplates": "*",
+        "handlebars": "^4.7.7",
+        "kill-port": "^1.6.1",
+        "symlink-dir": "^5.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^16.0.0",
+        "@vercel/ncc": "0.28.6",
+        "copyfiles": "^2.4.1",
+        "npm-run-all": "^4.1.5",
+        "replace": "^1.2.1",
+        "rimraf": "^3.0.2",
+        "typescript": "^4.3.5"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "@dynamail/mailtemplates",
+    "version": "1.0.0",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "start": "kill-port 3000 && mailbuilder dev",
+        "start:tooling": "nodemon --watch ../MailBuilder/dist --delay 2 --exec npm run start",
+        "build": "mailbuilder build",
+        "lint": "mailbuilder lint ./src/**/*.mjml",
+        "format": "mailbuilder format ./src/**/*.mjml",
+        "mailbuilder": "mailbuilder"
+    },
+    "engines": {
+        "node": ">=14"
+    },
+    "dependencies": {
+        "@dynamail/handlebarshelpers": "*",
+        "@dynamail/mailbuilder": "*",
+        "handlebars": "^4.7.7",
+        "kill-port": "^1.6.1",
+        "mjml": "^4.10.1",
+        "mjml-core": "^4.10.1",
+        "nodemon": "^2.0.12"
+    }
+}

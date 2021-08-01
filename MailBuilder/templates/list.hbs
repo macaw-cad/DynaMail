@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="https://unpkg.com/browse/normalize.css@8.0.1/normalize.css">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+    />
+
+    <title>Templates</title>
+
+
+    <style>
+      :root {
+        --black:  #111827;
+        --white: #ffffff;
+        --gray: #6B7280;
+        --blue: #3b82f6;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Inter, system-ui;
+      }
+
+      body {
+        margin: 0;
+        padding: 30px;
+        background: var(--white);
+        color: var(--black);
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+      }
+
+      main {
+        width: 100%;
+        max-width: 25rem;
+        margin: 0 auto;
+      }
+
+      code {
+        display: inline-block;
+        border-radius: 3px;
+        padding: 0.1rem 0.3rem;
+        font-family: monospace;
+        font-size: 0.8rem;
+        background-color: var(--gray);
+        color: var(--white);
+      }
+
+      .title {
+        margin: 0;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+
+
+      .templates {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .templates > * + * {
+        margin-top: 1rem;
+      }
+
+      .template {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border: 1px solid var(--black);
+        border-radius: 4px;
+        padding: 1rem;
+      }
+
+      .template > * + * {
+        margin-left: 2rem;
+      }
+
+      .template__title {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .template__title a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      .template__title a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 class="title">Email templates</h1>
+
+      <ul class="templates">
+        {{#each templates}}
+          <li class="template">
+            <h2 class="template__title">
+              {{#if language}}
+                <a href="/template/{{language}}/{{name}}">{{ name }}</a>
+              {{else}}
+                <a href="/template/{{name}}">{{ name }}</a>
+              {{/if}}
+
+            </h2>
+
+            <p class="template__info">
+              {{#if language}}
+                <code>{{language}}</code> |
+              {{/if}}
+              <code>{{template}}</code>
+            </p>
+          </li>
+        {{/each}}
+      </ul>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>An error occured</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 30px;
+        background: #fff;
+        color: #333;
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+      }
+
+      main {
+        width: 100%;
+        max-width: 40rem;
+        margin: 0 auto;
+      }
+
+      pre {
+        max-width: 100%;
+        padding: 1rem;
+        overflow: auto;
+        background: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Error while rendering {{template.name}}</h1>
+
+      <pre>
+{{error.stack}}
+      </pre>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+    "packages": [
+        "HandlebarsHelpers",
+        "MailBuilder",
+        "MailTemplates",
+        "AzureFunctions"
+    ],
+    "version": "1.0.0"
+}

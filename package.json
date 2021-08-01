@@ -1,0 +1,34 @@
+{
+    "name": "dynamail",
+    "version": "1.0.0",
+    "description": "Data-driven, multi-language, template-based emails using MJML, Handlebars and Azure functions",
+    "author": "Serge van den Oever [Macaw]",
+    "license": "MIT",
+    "scripts": {
+        "bootstrap": "lerna bootstrap && lerna run build --scope @dynamail/mailbuilder",
+        "start": "lerna run build --scope @dynamail/handlebarshelpers && lerna run start --scope @dynamail/mailtemplates --scope @dynamail/handlebarshelpers --stream --parallel",
+        "start:azurefunctions": "lerna run start --scope @dynamail/azurefunctions --stream",
+        "start:tooling": "lerna run build --include-dependencies && lerna run start:tooling --stream --parallel",
+        "build": "lerna run build --stream",
+        "build:deployment": "npm-run-all build build:deployment:functions",
+        "clean": "rimraf dist-deploy AzureFunctions/dist MailBuilder/dist MailTemplates/dist HandlebarsHelpers/dist",
+        "clean:full": "npm run clean && rimraf node_modules package-lock.json AzureFunctions/node_modules AzureFunctions/package-lock.json MailBuilder/node_modules MailBuilder/package-lock.json MailTemplates/node_modules MailTemplates/package-lock.json HandlebarsHelpers/node_modules HandlebarsHelpers/package-lock.json __blobstorage__ __queuestorage__ __azurite_*.json func.zip",
+        "--- helpers ---": "---",
+        "build:deployment:functions": "npm run build:deployment:functions --prefix AzureFunctions",
+        "--- handy for debugging in vscode ---": "---",
+        "mailtemplates:start": "npm run start --prefix MailTemplates"
+    },
+    "keywords": [
+        "MJML",
+        "handlebars",
+        "Azure",
+        "Functions"
+    ],
+    "dependencies": {
+        "npm-run-all": "^4.1.5",
+        "rimraf": "^3.0.2"
+    },
+    "devDependencies": {
+        "lerna": "^4.0.0"
+    }
+}

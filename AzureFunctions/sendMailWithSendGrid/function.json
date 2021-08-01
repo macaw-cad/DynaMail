@@ -1,0 +1,19 @@
+{
+  "bindings": [
+    {
+      "type": "queueTrigger",
+      "name": "sendMailWithSendGrid",
+      "direction": "in",
+      "queueName": "sendgrid-emails"
+    },
+    {
+      "type": "sendGrid",
+      "name": "message",
+      "direction": "out",
+      "apiKey": "SendGridApiKey",
+      "from": "{_email.from}",
+      "to": "{_email.to}"
+    }
+  ],
+  "scriptFile": "../dist/sendMailWithSendGrid/index.js"
+}

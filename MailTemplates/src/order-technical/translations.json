@@ -1,0 +1,30 @@
+{
+    "en-GB": {
+        "subject": "Your order from {{@root._environment.brand}}",
+        "orderReceived": "Thank you for your order. Your order confirmation number is <strong>{{OrderConfirmationId}}</strong>.",
+        "furtherQuestions": "For any further questions please contact your community team.",
+        "quantity": "Quantity",
+        "amountDue": "Amount due",
+        "pricesExcludingTax": "All prices exclude Tax/VAT",
+        "startDate": "Start date",
+        "perMonth": "per month",
+        "oneOffCharges": "One-off Charges",
+        "recurringCharges": "Recurring Charges",
+        "companyId": "Company",
+        "locationNumber": "Location"
+    },
+    "nl-NL": {
+        "subject": "Uw bestelling van {{@root._environment.brand}}",
+        "orderReceived": "Bedankt voor uw bestelling. Uw orderbevestigingsnummer is <strong>{{OrderConfirmationId}}</strong>.",
+        "furtherQuestions": "Neem voor verdere vragen contact op met uw communityteam.",
+        "quantity": "Aantal",
+        "amountDue": "Verschuldigd bedrag",
+        "pricesExcludingTax": "Alle prijzen zijn exclusief BTW",
+        "startDate": "Startdatum",
+        "perMonth": "per maand",
+        "oneOffCharges": "Eenmalige kosten",
+        "recurringCharges": "Periodieke kosten",
+        "companyId": "Bedrijf",
+        "locationNumber": "Locatie"
+    }
+}

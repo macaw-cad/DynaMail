@@ -1,0 +1,86 @@
+/*
+ * Following properties should be set using style attribute on elements in template.mjml directly
+ * They are not supported by Outlook.
+ *
+ * - padding-bottom, padding-top
+ * - position
+ * - text-align
+ * - top
+ * - vertical-align
+ */
+
+body {
+  background-color: #fff;
+}
+
+.intro-text > div {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+
+.default-text {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.compact-text {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.product-image {
+  width: 50px; 
+}
+
+.product-image > img {
+  display: block;
+}
+
+.product-name {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+
+.sale-item-unit {
+  font-size: 9px;
+}
+
+.header-seperator {
+  border-bottom: 2px solid #000000;
+}
+
+.product-separator {
+  border-top: 1px solid #000000;
+}
+
+.bundle-item-seperator {
+  border-top: 1px dashed #D4D0C4;
+  height: 10px;
+}
+
+.order-total-seperator {
+  border-top: 2px solid #000000;
+}
+
+.tax-footnote {
+  font-size: 9px;
+}
+
+/* Other supported classes, but not currently in use
+
+.product-details {
+}
+
+.unit-price {
+}
+
+.quantity {
+}
+
+.total-price {
+}
+
+.order-total {
+}
+ */

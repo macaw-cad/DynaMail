@@ -1,0 +1,57 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "MailBuilder dev",
+            "program": "${workspaceFolder}/MailBuilder/dist/index.js",
+            "args": [
+                "dev"
+            ],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node",
+            "cwd": "${workspaceFolder}/MailTemplates"
+        },
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "MailTemplates: npm start",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "start"
+            ],
+            "port": 9229,
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/MailTemplates"
+        },
+       {
+            "type": "node",
+            "request": "launch",
+            "name": "MailTemplates: npm build",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "build"
+            ],
+            "port": 9229,
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/MailTemplates"
+        },
+
+        {
+            "name": "Attach to Node Functions",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "preLaunchTask": "func: host start"
+        }
+    ]
+}

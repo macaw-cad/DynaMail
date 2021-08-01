@@ -1,0 +1,222 @@
+<mjml>
+    <mj-head>
+        <mj-include path="../partials/head.mjml" />
+        <mj-style>
+            <mj-include path="./styles.css" />
+        </mj-style>
+        <mj-preview>${orderReceived}</mj-preview>
+    </mj-head>
+    <mj-body>
+
+        <!-- Header -->
+        <mj-section>
+            <mj-column>
+                <mj-image src="{{getLogoUrl @root._environment.brand @root._environment.baseUrl}}" width="107px"></mj-image>
+            </mj-column>
+        </mj-section>
+
+        <!-- Intro text -->
+        <mj-section>
+            <mj-column>
+                <mj-text css-class="intro-text">
+                    ${orderReceived}<br/>
+                    ${furtherQuestions}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+        <!-- Order -->
+        <mj-section>
+            <<mj-column>
+                <mj-table>
+                    <tr>
+                        <th class="header-seperator" style="padding-bottom: 10px;"><mj-raw>${tableHeaderProductDetails}</mj-raw></th>
+                        <th class="header-seperator" style="padding-bottom: 10px; text-align: right;"><mj-raw>${tableHeaderUnitPrice}</mj-raw></th>
+                        <th class="header-seperator" style="padding-bottom: 10px; text-align: right;"><mj-raw>${tableHeaderQuantity}</mj-raw></th>
+                        <th class="header-seperator" style="padding-bottom: 10px; text-align: right;"><mj-raw>${tableHeaderTotalPrice}</mj-raw></th>
+                    </tr>
+
+                    <!-- Order lines -->
+                    {{#each Lines}}
+                        <tr>
+                            <td 
+                                class="{{#if @first}}{{ else }}product-separator {{/if}}product-details"
+                                style="padding-top: 10px; padding-bottom: 10px; text-align: left; vertical-align: top;">
+
+                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="product-image" style="vertical-align: top">
+                                                {{#each this.ChildComponents}}
+                                                    {{#if this.Image}}
+                                                        <!-- note that for Sitecore image should be <GUID>.ashx, for demo changes to <GUID>.png -->
+                                                        <img 
+                                                            height="auto" 
+                                                            src="{{@root._environment.baseUrl}}/~/media/{{replace this.Image.SitecoreId '-' ''}}.png"
+                                                            width="50">
+                                                    {{/if}}
+                                                {{/each}}
+                                            </td>
+                                            <td class="product-name default-text">
+                                                {{#each ChildComponents}}
+                                                    {{#if DisplayName}}
+                                                        {{DisplayName}}<br />
+                                                    {{/if}}
+                                                {{/each}}
+                                                {{#each ChildComponents}}
+                                                    {{#if StartDate}}
+                                                        <mj-raw>${startDate}</mj-raw>: {{StartDate}}
+                                                    {{/if}}
+                                                {{/each}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <td 
+                                class="{{#if @first}}{{ else }}product-separator {{/if}}unit-price default-text" 
+                                style="padding-top: 10px; padding-bottom: 10px; text-align: right; vertical-align: top;">
+                                {{#if (not (isBundle ChildComponents))}}
+                                    {{this.UnitListPrice.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.UnitListPrice.Amount 2)}}}
+                                    {{#each this.ChildComponents}}
+                                        {{#eq this.SaleitemUnit 'PerMonth'}}
+                                            <br /><mj-raw><span class="sale-item-unit">${perMonth}</span></mj-raw>
+                                        {{/eq}}
+                                    {{/each}}
+                                {{/if}}
+                            </td>
+                            <td 
+                                class="{{#if @first}}{{ else }}product-separator {{/if}}quantity default-text"
+                                style="padding-top: 10px; padding-bottom: 10px; text-align: right; vertical-align: top;">
+                                {{#if (not (isBundle ChildComponents))}}
+                                    {{this.Quantity}}
+                                {{/if}}
+                            </td>
+                            <td 
+                                class="{{#if @first}}{{ else }}product-separator {{/if}}total-price default-text" 
+                                style="padding-top: 10px; padding-bottom: 10px; text-align: right; vertical-align: top;">
+                                {{#if (not (isBundle ChildComponents))}}
+                                    {{this.Totals.GrandTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.Totals.GrandTotal.Amount 2)}}}
+                                    {{#each this.ChildComponents}}
+                                        {{#eq this.SaleitemUnit 'PerMonth'}}
+                                            <br /><mj-raw><span class="sale-item-unit" >${perMonth}</span></mj-raw>
+                                        {{/eq}}
+                                    {{/each}}
+                                {{/if}}
+                            </td>
+                        </tr>
+
+                        {{#if (isBundle ChildComponents)}}
+                            <!-- Sub order lines, can't depend on @first/@last, because there are more items in the array then just the sublines  -->
+                            <tr>
+                                <td colspan="4" class="bundle-item-seperator" style="padding-bottom: 10px;"></td>
+                            </tr>
+
+                            {{#each this.ChildComponents as | childComponent |}}
+                                {{#if childComponent.ItemId}}
+                                    {{#if childComponent.ChildComponents}}
+
+                                        <tr>
+                                            <td class="product-details" style="text-align: left; vertical-align: top;">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="product-image" style="width:50px;"></td>
+                                                            <td class="product-name" style="text-align: left; vertical-align: baseline">
+                                                                {{#each this.ChildComponents}}
+                                                                    {{#if this.DisplayName}}
+                                                                        {{this.DisplayName}}
+                                                                    {{/if}}
+                                                                {{/each}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td class="unit-price" style="text-align: right; vertical-align: top;">
+                                                {{this.UnitListPrice.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.UnitListPrice.Amount 2)}}}
+                                                {{#each this.ChildComponents}}
+                                                    {{#eq this.SaleitemUnit 'PerMonth'}}
+                                                        <br /><mj-raw><span class="sale-item-unit">${perMonth}</span></mj-raw>
+                                                    {{/eq}}
+                                                {{/each}}
+                                            </td>
+                                            <td class="quantity" style="text-align: right; vertical-align: top;">{{this.Quantity}}</td>
+                                            <td class="total-price" style="text-align: right; vertical-align: top;">
+                                                {{this.Totals.GrandTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.Totals.GrandTotal.Amount 2)}}}
+                                                {{#each this.ChildComponents}}
+                                                    {{#eq this.SaleitemUnit 'PerMonth'}}
+                                                        <br /><mj-raw><span class="sale-item-unit">${perMonth}</span></mj-raw>
+                                                    {{/eq}}
+                                                {{/each}}
+                                            </td>
+                                        </tr>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                            <tr>
+                                <td colspan="4" style="padding-bottom: 10px;"></td>
+                            </tr>
+                        {{/if}}
+                    {{/each}}
+                    <tr style="">
+                        <td colspan="4" class="order-total-seperator order-total" style="line-height: 14px; text-align: right; padding-top: 10px;">
+                            <mj-raw>
+                                ${amountDue}: {{Totals.PaymentsTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed Totals.PaymentsTotal.Amount 2)}}}<br/>
+                                <i class="tax-footnote">${pricesExcludingTax}</i>
+                            </mj-raw>
+                        </td>
+                    </tr>
+                </mj-table>
+            </mj-column>
+        </mj-section>
+        
+        <!-- Additional order information -->
+        <mj-section>
+            <mj-column>
+                {{#each this.Components}}
+                    {{#if ShippingParty}}
+                        {{#if ShippingParty.AddressName}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.AddressName}}</mj-text>
+                        {{/if}}
+                        {{#if ShippingParty.Address1}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.Address1}}</mj-text>
+                        {{/if}}
+                        {{#if ShippingParty.Address2}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.Address2}}</mj-text>
+                        {{/if}}
+                        {{#if (or ShippingParty.City ShippingParty.Country)}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">
+                                {{#if ShippingParty.City}}
+                                {{ShippingParty.City}}, 
+                                {{/if}}
+                                {{#if ShippingParty.Country}}
+                                {{ShippingParty.Country}}
+                                {{/if}}
+                            </mj-text>
+                        {{/if}}
+                        {{#if ShippingParty.ZipPostalCode}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.ZipPostalCode}}</mj-text>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+                {{#each this.Components}}
+                    {{#if (or CompanyId LocationNumber)}}
+                        <mj-divider border-width="1px" border-style="dotted" border-color="#AAAFB4" />
+                        
+                        <mj-text align="center" color="#AAAFB4" padding="2px 25px">
+                            {{#if CompanyId}}
+                                ${companyId}: {{{insertZeroWidthJoiners CompanyId}}}
+                                {{#if LocationNumber}} | {{/if}}
+                            {{/if}}
+                            {{#if LocationNumber}}
+                                ${locationNumber}: {{LocationNumber}}
+                            {{/if}}
+                        </mj-text>
+                    {{/if}}
+                {{/each}}
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>

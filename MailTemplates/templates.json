@@ -1,0 +1,28 @@
+{
+    "templates": [
+        {
+            "id": "d-a098231dd3574b2397dea2c032ec4768",
+            "name": "order",
+            "template": "./src/order/template.mjml",
+            "language": "en-GB"
+        },
+        {
+            "id": "d-8cfd87cee57649c39a8b7a9e84ddd8e5",
+            "name": "order",
+            "template": "./src/order/template.mjml",
+            "language": "nl-NL"
+        },
+        {
+            "id": "d-a098231dd3574b2397dea2c032ec4769",
+            "name": "order-table",
+            "template": "./src/order-table/template.mjml",
+            "language": "en-GB"
+        },
+        {
+            "id": "d-8cfd87cee57649c39a8b7a9e84ddd8e6",
+            "name": "order-table",
+            "template": "./src/order-table/template.mjml",
+            "language": "nl-NL"
+        }        
+    ]
+}

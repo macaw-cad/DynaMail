@@ -1,0 +1,273 @@
+<mjml>
+    <mj-head>
+        <mj-include path="../partials/head.mjml" />
+        <mj-preview>${orderReceived}</mj-preview>
+    </mj-head>
+    <mj-body background-color="#fff">
+
+        <!-- Header -->
+        <mj-section>
+            <mj-column>
+                <mj-image src="{{getLogoUrl @root._environment.brand @root._environment.baseUrl}}" width="107px"></mj-image>
+            </mj-column>
+        </mj-section>
+
+        <!-- Intro text -->
+        <mj-section>
+            <mj-column>
+                <mj-text font-size="20px" font-weight="600">${subject}</mj-text>
+                <mj-text padding="2px 25px">
+                    ${orderReceived}
+                </mj-text>
+                <mj-text padding="2px 25px">
+                    ${furtherQuestions}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+{{#if (orderContainsNonTimeBasedSaleUnit Lines)}}
+        <!-- One-off Charges -->
+        <mj-section>
+            <mj-column>
+                <mj-text font-size="20px" font-weight="600">
+                    ${oneOffCharges}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+    {{#each Lines}}
+        {{#if (containsNonTimeBasedSaleUnit ChildComponents)}}
+            {{#if (not (isBundle ChildComponents))}}
+        <mj-section>
+            <mj-group>
+                <mj-column width="25%">
+                    {{#each this.ChildComponents}}
+                        {{#if this.Image}}
+                            <!-- note that for Sitecore image should be <GUID>.ashx, for demo changes to <GUID>.png -->
+                            <mj-image src="{{@root._environment.baseUrl}}/~/media/{{ replace this.Image.SitecoreId '-' '' }}.png" width="100px"></mj-image>
+                        {{/if}}
+                    {{/each}}
+                </mj-column>
+                <mj-column width="75%">
+                    {{#each ChildComponents}}
+                        {{#if DisplayName}}
+                                <mj-text padding="2px 25px"><b>{{DisplayName}}</b></mj-text>
+                        {{/if}}
+                    {{/each}}
+
+                    {{#if Quantity}}
+                        <mj-text padding="2px 25px">${quantity}: {{Quantity}}</mj-text>
+                    {{/if}}
+
+                    {{#each ChildComponents}}
+                        {{#if StartDate}}
+                            <mj-text padding="2px 25px">${startDate}: {{StartDate}}</mj-text>
+                        {{/if}}
+                    {{/each}}
+                    <mj-text padding="0px 25px" align="right">{{this.Totals.GrandTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.Totals.GrandTotal.Amount 2)}}}</mj-text>
+                </mj-column>
+            </mj-group>
+        </mj-section>
+            {{else}}
+                {{#each this.ChildComponents as | subLine |}}
+                    {{#if (isProductElement subLine)}}
+                        {{#if (containsNonTimeBasedSaleUnit ChildComponents)}}
+        <mj-section>
+            <mj-group>
+                <mj-column width="25%">
+                    {{#each ../ChildComponents}}
+                        {{#if this.Image}}
+                            <!-- note that for Sitecore image should be <GUID>.ashx, for demo changes to <GUID>.png -->
+                            <mj-image src="{{@root._environment.baseUrl}}/~/media/{{ replace this.Image.SitecoreId '-' '' }}.png" width="100px"></mj-image>
+                        {{/if}}
+                    {{/each}}
+                </mj-column>
+                <mj-column width="75%">
+                    {{#each subLine.ChildComponents}}
+                        {{#if DisplayName}}
+                            <mj-text padding="2px 25px"><b>{{DisplayName}}</b></mj-text>
+                        {{/if}}
+                    {{/each}}
+
+                    {{#if Quantity}}
+                        <mj-text padding="2px 25px">${quantity}: {{Quantity}}</mj-text>
+                    {{/if}}
+
+                    {{#each ChildComponents}}
+                        {{#if StartDate}}
+                            <mj-text padding="2px 25px">${startDate}: {{StartDate}}</mj-text>
+                        {{/if}}
+                    {{/each}}
+                    <mj-text padding="0px 25px" align="right">{{this.Totals.GrandTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.Totals.GrandTotal.Amount 2)}}}</mj-text>
+                </mj-column>
+            </mj-group>
+        </mj-section>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        {{/if}}
+    {{/each}}
+
+{{/if}}
+
+
+
+{{#if (orderContainsTimeBasedSaleUnit Lines)}}
+        <!-- Recurring Charges -->
+        <mj-section>
+            <mj-column>
+                <mj-text font-size="20px" font-weight="600">
+                    ${recurringCharges}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+   {{#each Lines}}
+        {{#if (containsTimeBasedSaleUnit ChildComponents)}}
+            {{#if (not (isBundle ChildComponents))}}
+        <mj-section>
+            <mj-group>
+                <mj-column width="25%">
+                    {{#each this.ChildComponents}}
+                        {{#if this.Image}}
+                            <!-- note that for Sitecore image should be <GUID>.ashx, for demo changes to <GUID>.png -->
+                            <mj-image src="{{@root._environment.baseUrl}}/~/media/{{ replace this.Image.SitecoreId '-' '' }}.png" width="100px"></mj-image>
+                        {{/if}}
+                    {{/each}}
+                </mj-column>
+                <mj-column width="75%">
+                    {{#each ChildComponents}}
+                        {{#if DisplayName}}
+                            <mj-text padding="2px 25px"><b>{{DisplayName}}</b></mj-text>
+                        {{/if}}
+                    {{/each}}
+
+                    {{#if Quantity}}
+                        <mj-text padding="2px 25px">${quantity}: {{Quantity}}</mj-text>
+                    {{/if}}
+
+                    {{#each ChildComponents}}
+                        {{#if StartDate}}
+                            <mj-text padding="2px 25px">${startDate}: {{StartDate}}</mj-text>
+                        {{/if}}
+                    {{/each}}
+                    <mj-text padding="0px 25px" align="right">{{this.Totals.GrandTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.Totals.GrandTotal.Amount 2)}}}</mj-text>
+                    {{#each this.ChildComponents}}
+                        {{! Currently only 'per month' supported }}
+                        {{#eq this.SaleitemUnit 'PerMonth'}}
+                            <mj-text padding="0px 25px" align="right" font-size="12px" font-style="italic">
+                                ${perMonth}
+                            </mj-text>
+                        {{/eq}}
+                    {{/each}}
+                </mj-column>
+            </mj-group>
+        </mj-section>
+            {{else}}
+                {{#each this.ChildComponents as | subLine |}}
+                    {{#if (isProductElement subLine)}}
+                        {{#if (containsTimeBasedSaleUnit ChildComponents)}}                    
+        <mj-section>
+            <mj-group>
+                <mj-column width="25%">
+                    {{#each ../ChildComponents}}
+                        {{#if this.Image}}
+                            <!-- note that for Sitecore image should be <GUID>.ashx, for demo changes to <GUID>.png -->
+                            <mj-image src="{{@root._environment.baseUrl}}/~/media/{{ replace this.Image.SitecoreId '-' '' }}.png" width="100px"></mj-image>
+                        {{/if}}
+                    {{/each}}
+                </mj-column>
+                <mj-column width="75%">
+                    {{#each subLine.ChildComponents}}
+                        {{#if DisplayName}}
+                            <mj-text padding="2px 25px"><b>{{DisplayName}}</b></mj-text>
+                        {{/if}}
+                    {{/each}}
+
+                    {{#if Quantity}}
+                        <mj-text padding="2px 25px">${quantity}: {{Quantity}}</mj-text>
+                    {{/if}}
+
+                    {{#each ChildComponents}}
+                        {{#if StartDate}}
+                            <mj-text padding="2px 25px">${startDate}: {{StartDate}}</mj-text>>
+                        {{/if}}
+                    {{/each}}
+                    <mj-text padding="0px 25px" align="right">{{this.Totals.GrandTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed this.Totals.GrandTotal.Amount 2)}}}</mj-text>
+                    {{#each this.ChildComponents}}
+                        {{! Currently only 'per month' supported }}
+                        {{#eq this.SaleitemUnit 'PerMonth'}}
+                            <mj-text padding="0px 25px" align="right" font-size="12px" font-style="italic">
+                                ${perMonth}
+                            </mj-text>
+                        {{/eq}}
+                    {{/each}}
+                </mj-column>
+            </mj-group>
+        </mj-section>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        {{/if}}
+    {{/each}}
+{{/if}}
+
+        <!-- Total amount due -->
+        <mj-section>
+            <mj-column>
+                <mj-divider border-width="2px" border-style="solid" border-color="#000000" />
+                <mj-text align="right" font-size="16px" font-weight="600" padding-bottom="2px">${amountDue}: {{Totals.PaymentsTotal.CurrencyCode}} {{{insertZeroWidthJoiners (toFixed Totals.PaymentsTotal.Amount 2)}}}</mj-text>
+                <mj-text align="right" font-style="italic" font-size="12px" padding-top="3px">${pricesExcludingTax}</mj-text>
+            </mj-column>
+        </mj-section>
+
+        <!-- Additional order information -->
+        <mj-section>
+            <mj-column>
+                {{#each this.Components}}
+                    {{#if ShippingParty}}
+                        {{#if ShippingParty.AddressName}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.AddressName}}</mj-text>
+                        {{/if}}
+                        {{#if ShippingParty.Address1}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.Address1}}</mj-text>
+                        {{/if}}
+                        {{#if ShippingParty.Address2}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.Address2}}</mj-text>
+                        {{/if}}
+                        {{#if (or ShippingParty.City ShippingParty.Country)}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">
+                                {{#if ShippingParty.City}}
+                                {{ShippingParty.City}}, 
+                                {{/if}}
+                                {{#if ShippingParty.Country}}
+                                {{ShippingParty.Country}}
+                                {{/if}}
+                            </mj-text>
+                        {{/if}}
+                        {{#if ShippingParty.ZipPostalCode}}
+                            <mj-text color="#AAAFB4" padding="2px 25px">{{ShippingParty.ZipPostalCode}}</mj-text>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+                {{#each this.Components}}
+                    {{#if (or CompanyId LocationNumber)}}
+                        <mj-divider border-width="1px" border-style="dotted" border-color="#AAAFB4" />
+                        
+                        <mj-text align="center" color="#AAAFB4" padding="2px 25px">
+                            {{#if CompanyId}}
+                                ${CompanyId}: {{{insertZeroWidthJoiners CompanyId}}}
+                                {{#if LocationNumber}} | {{/if}}
+                            {{/if}}
+                            {{#if LocationNumber}}
+                                ${locationNumber}: {{LocationNumber}}
+                            {{/if}}
+                        </mj-text>
+                    {{/if}}
+                {{/each}}
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>
