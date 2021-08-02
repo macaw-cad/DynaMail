@@ -14,6 +14,13 @@ To start template development:
 
 In the current implementation an Azure Function with a SendGrid binding is used to send out the email.
 
+# The DynaMail use-case
+**DynaMail** is a simple and free solution to send transactional emails. We used it at a customer for sending order emails from Sitecore Experience Commerce in a case where Sitecore Email Experience Manager (EXM) could not be used. Although I never used EXM myself, I think that building good transactional emails is a developer task, and not something that can be done by dragging together blocks in a visual designer.
+
+Building good responsive emails is hard, that is why we used MJML in DynaMail to handle the heavy-lifting of building the email templates. See https://mjml.io/templates for some great examples of what you can achieve with MJML. 
+
+# Using DynaMail
+**DynaMail** is not an NPM package you install in your solution, but it is a starter to be embeded within your solution. Copy over the code into a folder DynaMail in your solution, and modify the code!
 # Developing email templates
 Email templates are developed in the folder `MailTemplates`. New templates should be added to the file `MailTemplates\templates.json`. Have a look at existing templates on the structure of required files and what templates, data and translation files look like. In the browser preview on http://localhost:3000 you can switch between the language versions of a template for the preview.
 
