@@ -5,3 +5,5 @@ __queuestorage__
 __tablestorage__
 __azurite_db_*__.json
 tsconfig.tsbuildinfo
+/.env
+/AzureFunctions/local.settings.json

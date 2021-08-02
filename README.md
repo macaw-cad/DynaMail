@@ -3,15 +3,16 @@ To start template development:
 
 1. `npm install`
 2. `npm run bootstrap`
-3. `npm run start`
-4. open http://localhost:3000 to see a preview of the email templates with sample data
+3. copy `.env.sample` to `.env` and set values of `SendGridApiKey` and `SendGridFromAddress`
+4. `npm run start`
+5. open http://localhost:3000 to see a preview of the email templates with sample data
 # DynaMail introduction
 **DynaMail** is a system to create, build, deploy and send data-driven, multi-language, template-based emails. In the current implementation an Azure Function with a SendGrid binding is used to send out the email.
 
-The implementation uses [mjml-sendgrid-toolkit](https://github.com/adambrgmn/mjml-sendgrid-toolkit) by Adam Bergman. This code-base is included within the project in the folder `MailBuilder` because many modifications were made to get the required functionality.
+The implementation uses code from [mjml-sendgrid-toolkit](https://github.com/adambrgmn/mjml-sendgrid-toolkit) by Adam Bergman. This code-base is included within the project in the folder `MailBuilder` because many modifications were made to get the required functionality.
 
 # Developing email templates
-Email templates are developed in the folder `MailTemplates`. New templates should be added to the file `MailTemplates\templates.json`. Have a look at existing templates on the structure of required files and what templates, data and tranlation files look like. In the browser preview on http://localhost:3000 you can switch between the language versions of a template for the preview.
+Email templates are developed in the folder `MailTemplates`. New templates should be added to the file `MailTemplates\templates.json`. Have a look at existing templates on the structure of required files and what templates, data and translation files look like. In the browser preview on http://localhost:3000 you can switch between the language versions of a template for the preview.
 
 ## Templates folder structure
 Templates are managed in the following folder structure:
@@ -148,23 +149,14 @@ When a mail template for a given language is selected the following screen appea
 
 ![](./README-artifacts/MailBuilder-order-table_en-GB.png)
 
-Test emails can be directly sent from the preview website. The configuration as defined in the Azure Function in the file `AzureFunctions\local.settings.json` is used for sending out the email:
+Test emails can be directly sent from the preview website. The configuration as defined in the root file `.env` (sample provided as `.env.sample`) is used for sending out the email:
 
-```json
-{
-	"IsEncrypted": false,
-	"Values": {
-		"SendGridApiKey": "<your sendgrid API key>",
-		"AzureWebJobsStorage": "UseDevelopmentStorage=true",
-		"FallbackLanguage": "en-GB",
-		"FUNCTIONS_WORKER_RUNTIME": "node"
-	}
-}
+```
+SendGridApiKey=<your sendgrid API key>
+SendGridFromAddress=<your approved SendGrid from email address>
 ```
 
-When testing, you can create an account with SendGrid, and use a personal SendGrid API key to use as value for `SendGridApiKey`.
-
-When there is a fixed "from" email address, add a value `SendGridFromAddress` with the "from" email address.
+When testing, you can create an account with SendGrid, and use a personal SendGrid API key to use as value for `SendGridApiKey`.Add also a value `SendGridFromAddress` with the "from" email address.
 
 Note that the test email is NOT sent using the Azure Function, so the Azure Function does not have to be running while testing. To test in mail clients, enter an email address in the input box and press the SEND button.
 
@@ -204,6 +196,7 @@ There are two functions available:
 ## Local testing of the Azure Functions
 The Azure Function only needs to run when testing the functionality of sending e-mail with the Azure Function itself.
 To test the Azure Function do the following:
+- make sure you have a file `AzureFunctions/local.settings.json` (sample provided as `AzureFunctions\local.settings.json.sample`) with the correct settings
 - make sure you have `npm run start` running in one terminal window
 - execute the command `npm run start:azurefunctions` in another terminal window
 
@@ -213,6 +206,22 @@ To send an email execute the following step:
 Make sure that the `_email.from` and `_email.to` email addresses are correct in the `data.json` file.
 
 Because a directory junction (Windows) or directory symbolic link (OSX, Linux) is made from `AzureFunctions\dist\MailTemplates` to `MailTemplates\dist`, the Azure Function will pick up the latest compiled mail templates, as long ar `npm run start` is still running.
+
+### local.settings.json
+The `AzureFunctions\local.settings.json` file looks like:
+
+```json
+{
+	"IsEncrypted": false,
+	"Values": {
+		"SendGridApiKey": "<your sendgrid API key>",
+    "SendGridFromAddress": "<your approved SendGrid from email address>",
+		"AzureWebJobsStorage": "UseDevelopmentStorage=true",
+		"FallbackLanguage": "en-GB",
+		"FUNCTIONS_WORKER_RUNTIME": "node"
+	}
+}
+```
 
 ## Deploy the Azure Functions to an Azure environment
 To do a manual deployment to an existing Azure Function App you could use the following PowerShell script. This script is available as `deploy-tst.ps1` in the root of the `DynaMail`folder.
@@ -233,7 +242,7 @@ Add-Type -assembly "system.io.compression.filesystem"
 az functionapp deployment source config-zip -g $resourceGroup -n $functionAppName --src $publishZip
 ```
 
-Note that the PowerShel script uses the `az` [Azure command-line command](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). 
+Note that the PowerShell script uses the `az` [Azure command-line command](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). 
 
 ## DevOps build pipeline for building the Azure Functions
 

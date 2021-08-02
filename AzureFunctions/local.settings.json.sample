@@ -1,0 +1,10 @@
+{
+	"IsEncrypted": false,
+	"Values": {
+		"SendGridApiKey": "<your sendgrid API key>",
+    "SendGridFromAddress": "<your approved SendGrid from email address>",
+		"AzureWebJobsStorage": "UseDevelopmentStorage=true",
+		"FallbackLanguage": "en-GB",
+		"FUNCTIONS_WORKER_RUNTIME": "node"
+	}
+}

@@ -5,6 +5,7 @@ import path from 'path';
 import { writeFile } from 'fs/promises';
 import { existsSync, readFileSync, Stats, writeFileSync } from 'fs';
 import * as handlebars from "handlebars";
+import * as dotenv from 'dotenv';
 
 import {
   getProjectConfig,
@@ -90,39 +91,18 @@ const templatePattern = new UrlPattern('/template/:name');
 const templateWithLanguagePattern = new UrlPattern('/template/:language/:name');
 
 export function dev(project: ProjectConfig) {
-  const localSettingsJsonConfigPath = path.join(
-    __dirname,
-    '../../AzureFunctions/local.settings.json',
-  );
-  if (!existsSync(localSettingsJsonConfigPath)) {
-    throw new Error(
-      `Missing configuration file at path '${localSettingsJsonConfigPath}'`,
-    );
-  }
-  let localSettings;
-  try {
-    localSettings = JSON.parse(
-      readFileSync(localSettingsJsonConfigPath).toString(),
-    );
-  } catch (error) {
-    throw new Error(
-      `Failed to read configuration file at path '${localSettingsJsonConfigPath}'`,
-    );
-  }
-  if (!localSettings.Values.SendGridApiKey) {
-    throw new Error(
-      `Configuration file at path '${localSettingsJsonConfigPath}' is missing 'SendGridApiKey'`,
-    );
-  }
-  if (!localSettings.Values.SendGridFromAddress) {
-    throw new Error(
-      `Configuration file at path '${localSettingsJsonConfigPath}' is missing 'SendGridFromAddress'`,
-    );
-  }
+  const dotenvPath = path.resolve(__dirname, "../../.env");
+  dotenv.config({ path: dotenvPath });
 
-  const sendGridApiKey = localSettings.Values.SendGridApiKey;
-  const sendGridFromAddress = localSettings.Values.SendGridFromAddress;
-
+  const sendGridApiKey = process.env.SendGridApiKey;
+  const sendGridFromAddress = process.env.SendGridFromAddress;
+  if (!sendGridApiKey) {
+    throw new Error(`Ensure file ${dotenvPath} exists and contains value for 'SendGridApiKey'`);
+  }
+  if (!sendGridApiKey) {
+    throw new Error(`Ensure file ${dotenvPath} exists and contains value for 'SendGridFromAddress'`);
+  }
+  
   const server = bs.create('MailBuilder Server');
 
   server.watch('**/*.mjml', {}, (event: string, file: Stats) => {
