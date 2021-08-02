@@ -7,9 +7,12 @@ To start template development:
 4. `npm run start`
 5. open http://localhost:3000 to see a preview of the email templates with sample data
 # DynaMail introduction
-**DynaMail** is a system to create, build, deploy and send data-driven, multi-language, template-based emails. In the current implementation an Azure Function with a SendGrid binding is used to send out the email.
+**DynaMail** is a system to create, build, deploy and send data-driven, multi-language, template-based emails. Create complex personal transactional emails like this in any language:
 
-The implementation uses code from [mjml-sendgrid-toolkit](https://github.com/adambrgmn/mjml-sendgrid-toolkit) by Adam Bergman. This code-base is included within the project in the folder `MailBuilder` because many modifications were made to get the required functionality.
+![](README-artifacts/MailBuilder-order_en-GB.png)
+
+
+In the current implementation an Azure Function with a SendGrid binding is used to send out the email.
 
 # Developing email templates
 Email templates are developed in the folder `MailTemplates`. New templates should be added to the file `MailTemplates\templates.json`. Have a look at existing templates on the structure of required files and what templates, data and translation files look like. In the browser preview on http://localhost:3000 you can switch between the language versions of a template for the preview.
@@ -31,7 +34,9 @@ Templates are managed in the following folder structure:
 
 Email templates are developed using [MJML](https://mjml.io/) and can include language replacement tokens (in the format `${token}`) and [Handlebars](https://handlebarsjs.com/) for templating.
 
-Changes in templates, sample data, styling or translation files are detected, and the resulting email is rerendered in the preview website.
+Handlebars extension functions are created in the file `HandlebarsHelpers\index.ts`.
+
+Changes in templates, sample data, styling, translation files and extension functions are detected, and the resulting email is rerendered in the preview website.
 
 ## The data
 DynaMail is created to handle dynamic data, and use Handlebars to iterate over the data. The structure of the data is application/mail template specific. In this data a fixed structure is injected that is used by DynaMail to construct and send mails:
@@ -161,6 +166,15 @@ When testing, you can create an account with SendGrid, and use a personal SendGr
 Note that the test email is NOT sent using the Azure Function, so the Azure Function does not have to be running while testing. To test in mail clients, enter an email address in the input box and press the SEND button.
 
 To view the resulting HTML, right-click on the output en select **View frame source**, because the resulting email HTML is rendered in an iframe.
+
+# Provided examples
+The project contains two templates both using the same complex JSON data as available for an order in Sitecore Experience Commerce 10. The example data is based on a real case for a customer selling services. We extended the order data with a `SaleItemUnit` that can be `PerItem` or `PerMonth`, and a start date for the service.
+
+The example `MailTemplates\src\order-table` provides a table view of the order with 4 columns. It looked nice on desktop, but was not optimal for mobile.
+
+The example `MailTemplates\src\order` provides a mobile optimized version with the data split in one-off and recurring costs.
+
+The examples show the power of DynaMail and are great examples of real complex use-cases.
 
 # Prerequisites AzureFunctions
 When testing out the Azure Function locally there are some requirements:
@@ -310,7 +324,7 @@ When the initial `npm run bootstrap` is executed, two things are done:
 When changes are made to the **MailBuilder** tool, the tool must be rebuilt (either through `npm run bootstrap`, or execute `npm run build` in the folder `MailBuilder`). It is also possible to to development on everything at the same time, in that case look at the section **Developing the tooling**.
 
 # Steps to build the Azure Function + mail templates for production
-To create a version for deployment to Azure environmentsd execute the following steps:
+To create a version for deployment to Azure environments execute the following steps:
 
 1. `npm install`
 2. `npm run bootstrap`
@@ -343,3 +357,13 @@ In this project, the `<queuename>` would be `sendgrid-emails`
 
 # Developing the tooling
 When developing on the **MailBuilder** or **AzureFunctions** use `npm run start:tooling` which uses watches to restart the required processes when code changes in the **MailBuilder**.
+
+# Tribute - standing on the shoulders of giants
+The implementation of DynaMail uses code from [mjml-sendgrid-toolkit](https://github.com/adambrgmn/mjml-sendgrid-toolkit) by Adam Bergman. A heavy modified version of this code-base is included within this project in the folder `MailBuilder`, because many modifications were made to get the required functionality.
+
+Other important NPM packages used in the project:
+- [MJML](https://mjml.io/) - _The only framework that makes responsive email easy. MJML is a markup language designed to reduce the pain of coding a responsive email_
+- [Handlebars](https://handlebarsjs.com/) - _Minimal templating on steroids_
+
+
+
