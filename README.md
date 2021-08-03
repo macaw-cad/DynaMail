@@ -22,6 +22,9 @@ Building good responsive emails is hard, that is why we used MJML in DynaMail to
 # Using DynaMail
 **DynaMail** is not an NPM package you install in your solution, but it is a starter to be embeded within your solution. Copy over the code into a folder DynaMail in your solution, and modify the code!
 # Developing email templates
+![](README-artifacts/DynaMail-development-mode.png)
+The Dynamail development mode can be started by executing the command `npm run start` in the root folder of DynaMail.
+
 Email templates are developed in the folder `MailTemplates`. New templates should be added to the file `MailTemplates\templates.json`. Have a look at existing templates on the structure of required files and what templates, data and translation files look like. In the browser preview on http://localhost:3000 you can switch between the language versions of a template for the preview.
 
 ## Templates folder structure
@@ -244,7 +247,14 @@ The `AzureFunctions\local.settings.json` file looks like:
 }
 ```
 
-## Deploy the Azure Functions to an Azure environment
+## Build for deployment
+The compiled Azure Functions in combination with the compiled mail templates result in a folder `dist-deploy` in the root of the project that can be deployed to Azure.
+
+![](README-artifacts/DynaMail-build-mode.png)
+
+Execute the command `npm run build:deployment` to build this resulting deployment folder.
+
+## Deploy to an Azure environment
 To do a manual deployment to an existing Azure Function App you could use the following PowerShell script. This script is available as `deploy-tst.ps1` in the root of the `DynaMail`folder.
 
 ```powershell

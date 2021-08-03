@@ -7,3 +7,4 @@ __azurite_db_*__.json
 tsconfig.tsbuildinfo
 /.env
 /AzureFunctions/local.settings.json
+node_modules
