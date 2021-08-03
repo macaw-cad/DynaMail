@@ -1,6 +1,6 @@
 # publish the code
-$resourceGroup = "RG_APPS_SITECORE_XC10_TSTPOC"
-$functionAppName = "we-sitecorexc10-tstpoc-func-email-01"
+$resourceGroup = "<Azure resource group>"
+$functionAppName = "<Function App name>"
 $publishFolder = "$PSScriptRoot\dist-deploy"
 
 # create the zip
