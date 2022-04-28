@@ -6,7 +6,7 @@
 		"to": "serge@macaw.nl"
 	},
 	"_environment": {
-		"baseUrl": "http://localhost:3000",
+		"baseUrl": "https://raw.githubusercontent.com/macaw-cad/DynaMail/37f71c25e65cea665783744fcf34d34af802be5e/SampleData",
 		"brand": "ACME"
 	},
 	"ShopName": "AcmeShop",
