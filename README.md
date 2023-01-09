@@ -173,6 +173,8 @@ SendGridFromAddress=<your approved SendGrid from email address>
 
 When testing, you can create an account with SendGrid, and use a personal SendGrid API key to use as value for `SendGridApiKey`.Add also a value `SendGridFromAddress` with the "from" email address.
 
+If you get a 403 error, head over to https://app.sendgrid.com/settings/sender_auth and walk through the *Single Sender Verification* steps to add a verified sender email address (the email address in your `SendGridFromAddress`). 
+
 Note that the test email is NOT sent using the Azure Function, so the Azure Function does not have to be running while testing. To test in mail clients, enter an email address in the input box and press the SEND button.
 
 To view the resulting HTML, right-click on the output en select **View frame source**, because the resulting email HTML is rendered in an iframe.

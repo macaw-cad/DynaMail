@@ -2,7 +2,7 @@
 	"_email": {
 		"template": "order",
 		"language": "en-GB",
-    "from": "svdoever@gmail.com",
+    	"from": "svdoever@gmail.com",
 		"to": "serge@macaw.nl"
 	},
 	"_environment": {
