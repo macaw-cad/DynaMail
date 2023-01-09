@@ -34,7 +34,6 @@
                 </mj-text>
             </mj-column>
         </mj-section>
-
     {{#each Lines}}
         {{#if (containsNonTimeBasedSaleUnit ChildComponents)}}
             {{#if (not (isBundle ChildComponents))}}
