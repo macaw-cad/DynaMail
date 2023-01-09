@@ -105,13 +105,21 @@ export function dev(project: ProjectConfig) {
   
   const server = bs.create('MailBuilder Server');
 
-  server.watch('**/*.mjml', {}, (event: string, file: Stats) => {
-    server.reload();
-    updateDist(file, project.root, 'prod'); // prod = don't execute Handlebars with sample data.json
+  server.watch('**/*.mjml', {}, async (event: string, file: Stats) => {
+    try {
+      server.reload();
+      await updateDist(file, project.root, 'prod'); // prod = don't execute Handlebars with sample data.json
+    } catch (error) {
+      console.error(error);
+    }
   });
-  server.watch('**/*.css', {}, (event: string, file: Stats) => {
+  server.watch('**/*.css', {}, async (event: string, file: Stats) => {
+    try {
     server.reload();
-    updateDist(file, project.root, 'prod'); // prod = don't execute Handlebars with sample data.json
+    await updateDist(file, project.root, 'prod'); // prod = don't execute Handlebars with sample data.json
+    } catch (error) {
+      console.error(error);
+    }
   });
   server.watch('**/*.json', {}, () => server.reload());
   for (let component of project.mjmlComponents) {
